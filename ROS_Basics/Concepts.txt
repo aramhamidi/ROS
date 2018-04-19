@@ -1,0 +1,71 @@
+ROS PACKAGES:
+ROS uses packages to organize its programs. You can think of a package as all the files that a specific ROS program contains; all its cpp files, python files, configuration files, compilation files, launch files, and parameters files.
+All those files in the package are organized with the following structure:
+
+	1-launch folder: Contains launch files
+	2-src folder: Source files (cpp, python)
+	3-CMakeLists.txt: List of cmake rules for compilation
+	4-package.xml: Package information and dependencies
+
+ launch files:
+ ROS uses launch files in order to execute programs.All launch files are contained within a <launch> tag. Inside that tag, you can see a <node> tag, where we specify the following parameters:
+
+	pkg="package_name" # Name of the package that contains the code of the ROS program to execute
+	type="cpp_executable_name" # Name of the cpp executable file that we want to execute
+	name="node_name" # Name of the ROS node that will launch our C++ file
+	output="type_of_output" # Through which channel you will print the output of the program
+
+ROS Workspace:
+When we want to create packages, we need to work in a very specific ROS workspace, which is known as the catkin workspace. The catkin workspace is the directory in your hard disk where your own ROS packages must reside in order to be usable by ROS. Usually, the catkin workspace directory is called catkin_ws. 
+Every time you want to create a package, you have to be in this directory (catkin_ws/src).
+
+ROS Nodes:
+ROS nodes are basically programs made in ROS
+
+Parameter Server
+A Parameter Server is a dictionary that ROS uses to store parameters. These parameters can be used by nodes at runtime and are normally used for static data, such as configuration parameters. You can create and delete new parameters for your own use.
+
+ROS Core
+In order to have all of this working, we need to have a roscore running. The roscore is the main process that manages all of the ROS system. You always need to have a roscore running in order to work with ROS. 
+
+Environment Variables
+ROS uses a set of Linux system environment variables in order to work properly. 
+
+ROS Topics
+A topic is like a pipe. Nodes use topics to publish information for other nodes so that they can communicate. A topic is a channel that acts as a pipe, where other ROS nodes can either publish or read information.
+		
+						Node1 ======================= Node2
+									topic pipe
+Publisher Nodes
+A publisher is a node that keeps publishing a message into a topic
+
+Messages
+Topics handle information through messages. There are many different types of messages.
+You can even create your own messages, but it is recommended to use ROS default messages when its possible.
+Messages are defined in .msg files, which are located inside a msg directory of a package.
+
+Subscruiber Nodes
+A subscriber is a node that reads information from a topic.
+
+How to create a package?
+		a. go to catkin_ws/src directory
+		b. do catkin_create_pkg <package_name> <dependecies>
+		c. go to package directory and do mkdir launch
+		d. now do touch launch/my_package_launch_file.launch to creat launch file
+		e. modify launch file with at least the following temple:
+			<launch>
+			    <!-- topic subscriber pkg launch file -->
+			    <node pkg="topic_subscriber_pkg" type="simple_topic_subscriber" name="topic_subscriber"  output="screen">
+			    </node>
+			</launch>
+		f. modify the ##build## section of CmakesLists.txt with at least the following:
+			add_executable(simple_topic_subscriber src/simple_topic_subscriber.cpp)
+			add_dependencies(simple_topic_subscriber ${simple_topic_subscriber_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+			target_link_libraries(simple_topic_subscriber
+			   ${catkin_LIBRARIES}
+			 )
+
+		g. now go back to catkin_was directory and do catkin_make
+
+How to execute/launch a ros program:
+		a. run roslaunch <my_package> <my_package_launch_file.launch>

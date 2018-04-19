@@ -1,0 +1,87 @@
+roslaunch <package_name> <launch_file>
+	roslaunch is the command used to launch a ROS program.
+	 command has two parameters: the first one is the name of the package that contains the launch file, and the second one is the name of the launch file itself (which is stored inside the package).
+
+roscd <package_name>
+	To go to any ROS package, ROS gives you a command named roscd. It will take you to the path where the package package_name is located.
+
+roscd	
+	If you type roscd in the shell, you'll see that you are thrown to a catkin_ws/devel directory. If you want to go to the workspace, just type cd .. to move up 1 directory. You must end up here in the /home/user/catkin_ws.
+	Every time you want to create a package, you have to be in this directory (catkin_ws/src).
+
+catkin_create_pkg <package_name> <package_dependecies>
+	The package_name is the name of the package you want to create, and the package_dependencies are the names of other ROS packages that your package depends on.
+	This command must be run in carkin_ws/src directory
+
+rospack list: 
+	Gives you a list with all of the packages in your ROS system.
+
+rospack list | grep my_package: 
+	Filters, from all of the packages located in the ROS system, the package named my_package.
+
+roscd my_package: 
+	Takes you to the location in the Hard Drive of the package, named my_package. 
+
+catkin _make
+	When you create a package, you will usually need to compile it in order to make it work. The command used by ROS to compile is the next one. This command will compile your whole src directory, and it needs to be issued in your catkin_ws directory in order to work. 
+
+catkin_make --only-pkg-with-deps <package_name>
+	Sometimes (for example, in large projects) you will not want to compile all of your packages, but just the one(s) where you've made changes.
+
+touch launch/<my_package_launch_file_name.launch> (LINUX command)
+	How to create a new launch file in your launch directory.
+
+rospack profile
+	Sometimes ROS won't detect a new package when you have just created it, so you won't be able to do a roslaunch. In this case, you can force ROS to do a refresh of its package list with this command.
+
+NOTE: If you create your C++ file from the shell, it may happen that it's created without execution permissions. If this happens, ROS won't be able to find it. If this is your case, you can give execution permissions to the file by typing the next command: chmod +x name_of_the_file.cpp
+
+rosnode list
+	The ROS command to see what nodes are actually running in a computer.
+
+rosnode info /<Node_Name>
+	This command will show us information about all the connections that our Node has.
+
+rosparam list
+	this command will give you the list of parameters. 
+
+rosparam get <parameter_name>
+	To get values of a particular parameter, you can use this command.
+
+rosparam set <parameter_name> <value>
+	To set a value to a parameter, you can use this command.
+	Example: 
+				rosparam get /camera/imager_rate
+				rosparam set /camera/imager_rate 4.0
+roscore
+	launches the ROS core. Should be done in a seperate terminal.
+
+export | grep ROS
+	you can check the ROS environment variables by this command
+	The most important variables are:
+		ROS_MASTER_URI -> Contains the url where the ROS Core is being executed. Usually, your own computer (localhost).
+		ROS_PACKAGE_PATH -> Contains the paths in your Hard Drive where ROS has packages in it.
+
+rostopic list 
+	lists all the available topics.
+
+rostopic list | grep '/<topic name>'
+	gives you the information regarding that specific topic
+
+rostopic echo /<topic name>
+	starts to echo whatever the topic is publishing
+
+rostopic echo <topic_name> -n1
+	 read just the last message published into a topic 
+
+rostopic -h
+	you can check the different options that rostopic command has by using this command.
+
+rosmsg show <message>
+	To get information about a message use this command
+
+roscd <msg_name/msg/> 
+	you can look at the msg file by going to the msg directory under that msg
+
+rostopic pub <topic_name> <message_type> <value>
+	This command will publish the message you specify with the value you specify, in the topic you specify.
